@@ -414,7 +414,7 @@ cdef class BinanceMarket(MarketBase):
             "symbol": "ETHBTC",
             "baseAssetPrecision": 8,
             "quotePrecision": 8,
-            "orderTypes": ["LIMIT", "MARKET"],
+            "orderTypes": ["LIMIT_MAKER", "MARKET"],
             "filters": [
                 {
                     "filterType": "PRICE_FILTER",
@@ -558,7 +558,7 @@ cdef class BinanceMarket(MarketBase):
 
                 # Update order execution status
                 tracked_order.last_state = order_update["status"]
-                order_type = OrderType.LIMIT if order_update["type"] == "LIMIT" else OrderType.MARKET
+                order_type = OrderType.LIMIT if order_update["type"] == "LIMIT_MAKER" else OrderType.MARKET
                 executed_amount_base = Decimal(order_update["executedQty"])
                 executed_amount_quote = Decimal(order_update["cummulativeQuoteQty"])
 
@@ -677,7 +677,7 @@ cdef class BinanceMarket(MarketBase):
                         order_filled_event = order_filled_event._replace(trade_fee=self.c_get_fee(
                             tracked_order.base_asset,
                             tracked_order.quote_asset,
-                            OrderType.LIMIT if event_message["o"] == "LIMIT" else OrderType.MARKET,
+                            OrderType.LIMIT if event_message["o"] == "LIMIT_MAKER" else OrderType.MARKET,
                             TradeType.BUY if event_message["S"] == "BUY" else TradeType.SELL,
                             Decimal(event_message["l"]),
                             Decimal(event_message["L"])
@@ -999,7 +999,7 @@ cdef class BinanceMarket(MarketBase):
 
         except Exception as e:
             self.c_stop_tracking_order(order_id)
-            order_type_str = 'MARKET' if order_type == OrderType.MARKET else 'LIMIT'
+            order_type_str = 'MARKET' if order_type == OrderType.MARKET else 'LIMIT_MAKER'
             self.logger().network(
                 f"Error submitting buy {order_type_str} order to Binance for "
                 f"{decimal_amount} {trading_pair} "
@@ -1091,7 +1091,7 @@ cdef class BinanceMarket(MarketBase):
             raise
         except Exception:
             self.c_stop_tracking_order(order_id)
-            order_type_str = 'MARKET' if order_type is OrderType.MARKET else 'LIMIT'
+            order_type_str = 'MARKET' if order_type is OrderType.MARKET else 'LIMIT_MAKER'
             self.logger().network(
                 f"Error submitting sell {order_type_str} order to Binance for "
                 f"{decimal_amount} {trading_pair} "

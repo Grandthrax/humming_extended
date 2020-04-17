@@ -118,7 +118,7 @@ class BinanceAPIOrderBookDataSource(OrderBookTrackerDataSource):
 
     @staticmethod
     async def get_snapshot(client: aiohttp.ClientSession, trading_pair: str, limit: int = 1000) -> Dict[str, Any]:
-        params: Dict = {"limit": str(limit), "symbol": trading_pair} if limit != 0 else {"symbol": trading_pair}
+        params: Dict = {"LIMIT_MAKER": str(limit), "symbol": trading_pair} if limit != 0 else {"symbol": trading_pair}
         async with client.get(SNAPSHOT_REST_URL, params=params) as response:
             response: aiohttp.ClientResponse = response
             if response.status != 200:
