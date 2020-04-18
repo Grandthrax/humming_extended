@@ -1053,9 +1053,8 @@ cdef class BinanceMarket(MarketBase):
                 )
                 order_result = await self.query_api(self._binance_client.create_order,
                                                     symbol=trading_pair,
-                                                    side="SELL",
-                                                    type="LIMIT_MAKER",
-                                                    time_in_force="GTC",
+                                                    side='SELL',
+                                                    type='LIMIT_MAKER',
                                                     quantity=order_decimal_amount,
                                                     price=order_decimal_price,
                                                     newClientOrderId=order_id)
