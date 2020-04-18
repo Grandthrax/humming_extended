@@ -956,11 +956,11 @@ cdef class BinanceMarket(MarketBase):
                     decimal_amount,
                     order_type
                 )
-                '''order_result = await self.query_api(self._binance_client.order_limit_buy,
+                """order_result = await self.query_api(self._binance_client.order_limit_buy,
                                                     #symbol=trading_pair,
                                                     #quantity=order_decimal_amount,
                                                     #price=order_decimal_price,
-                                                    #newClientOrderId=order_id)'''
+                                                    #newClientOrderId=order_id)"""
 
                 order_result = await self.query_api(self._binance_client.create_order,
                                                     symbol=trading_pair,
@@ -1058,11 +1058,11 @@ cdef class BinanceMarket(MarketBase):
                     decimal_amount,
                     order_type
                 )
-               '''# order_result = await self.query_api(self._binance_client.order_limit_sell,
+               """# order_result = await self.query_api(self._binance_client.order_limit_sell,
                 #                                    symbol=trading_pair,
                  #                                   quantity=order_decimal_amount,
                   #                                  price=order_decimal_price,
-                   #                                 newClientOrderId=order_id)'''
+                   #                                 newClientOrderId=order_id)"""
                    order_result = await self.query_api(self._binance_client.create_order,
                                                     symbol=trading_pair,
                                                     side="SELL",
